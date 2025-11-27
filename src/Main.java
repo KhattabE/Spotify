@@ -1,3 +1,5 @@
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -63,7 +65,8 @@ public class Main {
                 1: Top Ten Artist Songs
                 2: Name of longest song
                 3: Amount of albums an artist have
-                4: Exit
+                4: Insert new artist and their song to the database
+                5: Exit
                 """);
         System.out.println(optionsMenu.getFirst());
 
@@ -85,7 +88,8 @@ public class Main {
                 case 1 -> dbConnection.topTenArtistSongs();
                 case 2 -> dbConnection.nameOfLongestSong();
                 case 3 -> dbConnection.amountOfAlbumsAtristHave();
-                case 4 -> System.exit(0);
+                case 4 -> insertIntoDatabase(scanner, dbConnection);
+                case 5 -> System.exit(0);
                 default -> System.out.println("Invalid option try again!");
 
             }
@@ -101,12 +105,53 @@ public class Main {
         welcomeMessage(scanner);
         choice(scanner, dbConnection);
 
+    }
 
 
+    public void insertIntoDatabase(Scanner scanner, DBConnection dbConnection){
 
+        scanner.nextLine();
+
+        System.out.print("Enter Artist Name: ");
+        String newArtist = scanner.nextLine();
+
+        System.out.print("Enter their track: ");
+        String newSong = scanner.nextLine();
+
+        //The '?' is just a place holder, since i am using preparedStatements
+        String sql = """
+            INSERT INTO song (track_artist, track_name)
+            VALUES (?, ?);
+            """;
+
+        try {
+
+            //What this does is that it lets me insert data safely into the sql query
+            PreparedStatement pstmt = dbConnection.connection.prepareStatement(sql);
+
+            //I insert the variables into the sql here
+            pstmt.setString(1, newArtist);
+            pstmt.setString(2, newSong);
+
+            //And here i execute the insert
+            pstmt.executeUpdate();
+
+            //Just feedback to check if it is working
+            System.out.println("Song and artist has been added successfully!");
+
+        } catch (SQLException sqe) {
+            System.out.println("An error has occurred");
+        }
     }
 
 
 
-
 }
+
+
+
+
+
+
+
+
