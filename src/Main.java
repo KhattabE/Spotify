@@ -59,14 +59,14 @@ public class Main {
         ArrayList<String> optionsMenu = new ArrayList<>();
         System.out.println("----------------------------------------");
         System.out.println("You got the following Options: ");
-        optionsMenu.add("1: Top Ten Artist Songs");
-        optionsMenu.add("2: Name of longest song");
-        optionsMenu.add("3: Amount of albums an artist have");
-        optionsMenu.add("4: Exit");
+        optionsMenu.add("""
+                1: Top Ten Artist Songs
+                2: Name of longest song
+                3: Amount of albums an artist have
+                4: Exit
+                """);
         System.out.println(optionsMenu.getFirst());
-        System.out.println(optionsMenu.get(1));
-        System.out.println(optionsMenu.get(2));
-        System.out.println(optionsMenu.get(3));
+
 
 
 
